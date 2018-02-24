@@ -1,7 +1,13 @@
 <span id="favorite-form-<%= micropost.id %>">
   <% if current_user.favorite?(micropost) %>
-   <%= render 'favorites/unfavorite', micropost: micropost %>
+    <%= form_for current_user.favorites.find_by(micropost_id: micropost.id), html: {method: :delete}  do |f| %>
+      <%= hidden_field_tag :micropost_id,micropost.id  %>
+      <%= f.submit 'unfavorite', class:'btn btn-warning btn-xs' %>
+    <% end %>
   <% else %>
-    <%= render 'favorites/favorite', micropost: micropost %>
+    <%= form_for current_user.favorites.build do |f| %>
+      <%= hidden_field_tag :micropost_id,micropost.id  %>
+      <%= f.submit 'favorite', class: 'btn btn-primary btn-xs' %>
+    <% end  %>
   <% end %>
 </span>
